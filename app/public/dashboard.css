@@ -46,3 +46,11 @@
 .navbar .form-control {
   padding: .75rem 1rem;
 }
+
+.error{
+  color: rgb(190, 77, 12);
+}
+
+.escondido{
+  display: none;
+}

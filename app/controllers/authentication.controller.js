@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
-
+import connection from "../index.js";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ export const usuarios = [
 
 
 async function login(req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   const user = req.body.user;
   const password = req.body.password;
   if (!user || !password) {
@@ -84,7 +84,59 @@ async function register(req, res) {
   return res.status(201).send({ status: "ok", message: `Usuario ${nuevoUsuario.user} agregado`, redirect: "/" })
 }
 
+async function aprobated(req, res) {
+  try {
+    console.log(req.body);
+    const accountId = req.body.accountId;
+    const tollAmount = req.body.tollAmount;
+    const transactionId = req.body.transactionId;
+    if (!accountId || !tollAmount || !transactionId) {
+      console.log("Faltan Valores");
+      return res.status(400).send({ status: "Error", message: "Faltan Valores" });
+    }
+    
+    // Consulta para buscar el registro con el accountId
+    const selectQuery = `SELECT * FROM account WHERE ID = ${accountId}`;
+    const results = await executeQuery(connection, selectQuery);
+    if (results.length === 0) {
+      console.log("No se encontró ningún registro con el accountId proporcionado");
+      return res.status(404).send({ status: "Error", message: "No se encontró ningún registro con el accountId proporcionado" });
+    }
+
+    // Actualizar el campo tollAmount con el valor proporcionado
+    const updateQuery = `UPDATE account SET gold_coins = gold_coins + ${tollAmount} WHERE ID = ${accountId}`;
+    await executeQuery(connection, updateQuery);
+
+    const updateTollQuery = `UPDATE cms_donate_toll SET status = 'COMPLETED', updated_at = NOW() WHERE transaction_id = '${transactionId}'`;
+    await executeQuery(connection, updateTollQuery);
+
+    console.log("Registro actualizado correctamente");
+    return res.status(200).send({ status: "Success", message: "Registro actualizado correctamente" });
+  } catch (error) {
+    console.error('Error en la función aprobated:', error);
+    return res.status(500).send({ status: "Error", message: "Error en la función aprobated" });
+  } finally {
+   // connection.end();
+  }
+}
+
+function executeQuery(connection, query) {
+  return new Promise((resolve, reject) => {
+    connection.query(query, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+}
+
+export default aprobated;
+
+
 export const methods = {
   login,
-  register
+  register,
+  aprobated
 }

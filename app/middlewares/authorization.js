@@ -34,9 +34,9 @@ function revisarCookie(req) {
     try {
         const cookieJWT = req.headers.cookie.split("; ").find(cookie => cookie.startsWith("jwt=")).slice(4);
         const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
-        console.log("decodificada:", decodificada)
+        //console.log("decodificada:", decodificada)
         const usuarioAResvisar = usuarios.find(usuario => usuario.user === decodificada.user);
-        console.log("usuarioAResvisar:", usuarioAResvisar)
+        //console.log("usuarioAResvisar:", usuarioAResvisar)
         if (!usuarioAResvisar) {
             return false
         }
