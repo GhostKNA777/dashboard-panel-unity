@@ -8,6 +8,9 @@ import dotenv from "dotenv";
 import mysql from 'mysql';
 import ejs from 'ejs';
 import adminHandler from './public/admin-all.js';
+import adminAionHandler from './public/admin-aion.js';
+import adminFeudalHandler from './public/admin-feudal.js';
+import adminFeudalConfigHandler from './public/admin-feudal-config.js';
 
 dotenv.config();
 
@@ -68,6 +71,7 @@ console.log('SERVER RUN PORT', app.get('port'), 'http://localhost:4000/');
 
 //Configuracion
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser())
 
@@ -93,8 +97,14 @@ app.get("/admin/feudaldonate", authorization.soloGhost, (req, res) => {
         res.render('feudal-donate', { datos: results });
     });
 });
-
 app.get("/admin", authorization.soloAdmin, adminHandler);
+app.get("/admin/aion", authorization.soloAdmin, adminAionHandler);
+app.get("/admin/feudal", authorization.soloAdmin, adminFeudalHandler);
+app.get("/admin/feudalconfig", authorization.soloAdmin, adminFeudalConfigHandler);
+app.post("/api/closedProcesoFeudal", authorization.closedGSFeudal);
+app.post("/api/openProcesoFeudal", authorization.openGSFeudal);
+app.post("/api/statusProcesoFeudal", authorization.statusGSFeudal);
+app.post("/api/configFeudalSave", authorization.saveConfigFeudal);
 
 
 

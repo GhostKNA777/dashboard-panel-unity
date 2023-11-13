@@ -10,17 +10,17 @@ export const usuarios = [
     user: "GhostKNA",
     email: "ern777gavilanes@gmail.com",
     password: "$2a$05$1XOovHQkiCwdncnk3POaR.K5uZ8WcVZOtCd751JoVc5NKPAuAY62m"
-    //asus+fronco+#
+    
   },
   {
-    user: "randy",
-    email: "ern777gavilanes@gmail.com",
-    password: "$2a$05$vW6La9vxWYbb7IzygcZ8FuSoHIWz8YsXy42Sh4wwjCbym86WTES.q"
-    //asus+fronco+#
+    user: "saitama89",
+    email: "randybenzol@gmail.com",
+    password: "$2a$05$l/UCT5HQI5YhXZrGdUNYq.MsghFbug8d5l5NUfhk3eEY8F7klXqCu"
+    
   }
 ];
 
-//password: "$2a$05$vW6La9vxWYbb7IzygcZ8FuSoHIWz8YsXy42Sh4wwjCbym86WTES.q" //a
+
 
 
 async function login(req, res) {
