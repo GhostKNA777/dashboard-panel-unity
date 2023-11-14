@@ -19,6 +19,7 @@ dotenv.config();
 //ENV
 //APP
 const PORTAPP = process.env.PORT_APP
+const ADDRESAPP = process.env.ADDRES_APP
 //DATABASE FEUDAL
 const DBHOSTF = process.env.DB_HOSTF
 const DBUSERF = process.env.DB_USERF
@@ -68,7 +69,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.listen(app.get('port'));
-console.log('SERVER RUN PORT', app.get('port'), 'http://localhost:4000/webadmin');
+console.log('SERVER RUN PORT', app.get('port'), `${ADDRESAPP}/webadmin`);
 
 //Configuracion
 app.use(express.static(path.join(__dirname, 'public')));

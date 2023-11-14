@@ -5,7 +5,7 @@ document.getElementById("register-form").addEventListener("submit",async(e)=>{
   //console.log(e);
   //const userlog = e.target[0].value;
   //console.log(userlog);
-  const res = await fetch("http://localhost:4000/webadmin/api/register",{
+  const res = await fetch(`http://127.0.0.1:4000/webadmin/api/register`,{
     method:"POST",
     headers:{
       "Content-Type" : "application/json"

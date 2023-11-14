@@ -444,25 +444,25 @@
               <% } %>
         </p>
         <p class="mb-4"><i style="vertical-align:0px" class="bi bi-window"></i> Game Server:
-          <% if (puerto28000 ==='28000' ) { %>
+          <% if (puerto28000==='28000' ) { %>
             <span style="color: green;">
               <%= puerto28000 %> <i style="vertical-align:0px" class="bi bi-check-circle-fill"></i>
-              <button onclick="iniciarProceso()" type="button" class="btn btn-success"
-                    style="vertical-align:0px;margin-left: 10px;">Iniciar
-                    Servicio</button>
+                <button onclick="iniciarProceso()" type="button" class="btn btn-success"
+                  style="vertical-align:0px;margin-left: 10px;">Iniciar
+                  Servicio</button>
                 <button onclick="cerrarProceso()" type="button" class="btn btn-danger"
                   style="vertical-align:0px;margin-left: 10px">Apagar Servicio</button>
             </span>
             <span id="estadoProceso"></span>
-            <% } else if (puerto28000 ==='error 28000' ) { %>
+            <% } else if (puerto28000==='error 28000' ) { %>
               <span style="color: red;">
                 <%= puerto28000.replace('error 28000', '28000' ) %> <i style="vertical-align:0px"
                     class="bi bi-exclamation-circle-fill"></i>
                   <button onclick="iniciarProceso()" type="button" class="btn btn-success"
                     style="vertical-align:0px;margin-left: 10px;">Iniciar
                     Servicio</button>
-                    <button onclick="cerrarProceso()" type="button" class="btn btn-danger"
-                  style="vertical-align:0px;margin-left: 10px">Apagar Servicio</button>
+                  <button onclick="cerrarProceso()" type="button" class="btn btn-danger"
+                    style="vertical-align:0px;margin-left: 10px">Apagar Servicio</button>
               </span>
               <span id="estadoProceso"></span>
 
@@ -497,10 +497,17 @@
         </p>
 
 
+
+
         <script>
-          // Función para obtener el estado del proceso
+          //Función para cerrar el proceso
+          function update() {
+            window.location.href = '/webadmin/admin/feudal';
+          }
+
+
           function obtenerEstadoProceso() {
-            fetch('http://localhost:4000/webadmin/api/statusProcesoFeudal', { method: 'POST' })
+            fetch(`http://127.0.0.1:4000/webadmin/api/statusProcesoFeudal`, { method: 'POST' })
               .then(response => response.text())
               .then(data => {
                 const estadoProceso = document.getElementById('estadoProceso');
@@ -510,59 +517,12 @@
                 console.error('Error al obtener el estado del proceso:', error);
               });
           }
+
           // Ejecutar la función una vez al momento
           obtenerEstadoProceso();
           // Ejecutar la función cada 2.5 segundos
           setInterval(obtenerEstadoProceso, 10000);
-        </script>
-
-        <script>
-          //Función para cerrar el proceso
-          function iniciarProceso() {
-            fetch('http://localhost:4000/webadmin/api/openProcesoFeudal', { method: 'POST' })
-              .then(response => {
-                if (response.ok) {
-                  console.log('Proceso Iniciado exitosamente');
-                  setInterval(() => {
-                    window.location.href = '/webadmin/admin/feudal';
-                  }, 2000); // 2000 milisegundos = 2 segundos
-                } else {
-                  console.error('Error al iniciar el proceso');
-                }
-              })
-              .catch(error => {
-                console.error('Error al iniciar el proceso:', error);
-              });
-          }
-        </script>
-
-        <script>
-          //Función para cerrar el proceso
-          function cerrarProceso() {
-            fetch('http://localhost:4000/webadmin/api/closedProcesoFeudal', { method: 'POST' })
-              .then(response => {
-                if (response.ok) {
-                  console.log('Proceso cerrado exitosamente');
-                  setInterval(() => {
-                    window.location.href = '/webadmin/admin/feudal';
-                  }, 2000); // 2000 milisegundos = 2 segundos
-                } else {
-                  console.error('Error al cerrar el proceso');
-                }
-              })
-              .catch(error => {
-                console.error('Error al cerrar el proceso:', error);
-              });
-          }
-
-        </script>
-
-        <script>
-          //Función para cerrar el proceso
-          function update() {
-            window.location.href = '/webadmin/admin/feudal';
-          }
-
+          // Función para obtener el estado del proceso
         </script>
 
 

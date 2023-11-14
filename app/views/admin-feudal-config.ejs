@@ -487,27 +487,6 @@
           }
         </script>
 
-        <script>
-          //Función para guardar el proceso
-          document.getElementById("save-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            console.log(e);
-            const adminPassword = e.target[0].value;
-            const skillsStatsMult = e.target[1].value;
-            console.log(adminPassword);
-            console.log(skillsStatsMult);
-            const res = await fetch("http://localhost:4000/webadmin/api/configFeudalSave", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                adminPassword,
-                skillsStatsMult
-              })
-            });
-          })
-        </script>
 
 
 

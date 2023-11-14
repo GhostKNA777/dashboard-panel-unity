@@ -500,58 +500,58 @@
   </div>
 
   <script>
-    // Agrega el evento click a los botones de Aprobar
-    const aprobarButtons = document.querySelectorAll('.aprobar-btn');
-    aprobarButtons.forEach(button => {
-      button.addEventListener('click', function (event) {
-        event.preventDefault();
-        //console.log('event:', event);
-        const accountId = this.getAttribute('data-account-id');
-        const tollAmount = this.getAttribute('data-toll-amount');
-        const transactionId = this.getAttribute('data-transaction-id');
-        console.log('accountId:', accountId);
-        console.log('tollAmount:', tollAmount);
-        console.log('transactionId:', transactionId);
-        enviarDatos(accountId, tollAmount, transactionId);
-      });
-    });
+   // Agrega el evento click a los botones de Aprobar
+ const aprobarButtons = document.querySelectorAll('.aprobar-btn');
+ aprobarButtons.forEach(button => {
+   button.addEventListener('click', function (event) {
+     event.preventDefault();
+     //console.log('event:', event);
+     const accountId = this.getAttribute('data-account-id');
+     const tollAmount = this.getAttribute('data-toll-amount');
+     const transactionId = this.getAttribute('data-transaction-id');
+     console.log('accountId:', accountId);
+     console.log('tollAmount:', tollAmount);
+     console.log('transactionId:', transactionId);
+     enviarDatos(accountId, tollAmount, transactionId);
+   });
+ });
 
-    const mensajeError = document.getElementsByClassName("error")[0]
+ const mensajeError = document.getElementsByClassName("error")[0]
 
-    // Función para enviar los datos por POST
-    function enviarDatos(accountId, tollAmount, transactionId) {
-      const data = {
-        accountId: accountId,
-        tollAmount: tollAmount,
-        transactionId: transactionId
-      };
+ // Función para enviar los datos por POST
+ function enviarDatos(accountId, tollAmount, transactionId) {
+   const data = {
+     accountId: accountId,
+     tollAmount: tollAmount,
+     transactionId: transactionId
+   };
 
-      fetch('http://localhost:4000/webadmin/api/aprobated', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        //.then(response => response.json())
-        .then(data => {
-          console.log('Respuesta del servidor:', data);
-          const boton = document.querySelector('#modals');
-          boton.click();
+   fetch(`http://127.0.0.1:4000/webadmin/api/aprobated`, {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify(data)
+   })
+     //.then(response => response.json())
+     .then(data => {
+       console.log('Respuesta del servidor:', data);
+       const boton = document.querySelector('#modals');
+       boton.click();
 
-        })
-        .catch(error => {
-          console.error('Error al enviar los datos:', error);
-          return mensajeError.classList.toggle("escondido", false);
-        });
-    }
+     })
+     .catch(error => {
+       console.error('Error al enviar los datos:', error);
+       return mensajeError.classList.toggle("escondido", false);
+     });
+ }
 
-    //Actualizar la pagina
-    const enlace = document.querySelector('#donate_update');
-    enlace.addEventListener('click', function (event) {
-      event.preventDefault(); // Evita que el enlace redirija a una nueva página
-      location.reload(); // Actualiza la página
-    });
+ //Actualizar la pagina
+ const enlace = document.querySelector('#donate_update');
+ enlace.addEventListener('click', function (event) {
+   event.preventDefault(); // Evita que el enlace redirija a una nueva página
+   location.reload(); // Actualiza la página
+ });
 
   </script>
 
