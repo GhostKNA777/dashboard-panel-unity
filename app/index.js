@@ -1,4 +1,5 @@
 import express from 'express';
+import http from 'http';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
@@ -67,13 +68,14 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.listen(app.get('port'));
-console.log('SERVER RUN PORT', app.get('port'), 'http://localhost:4000/');
+console.log('SERVER RUN PORT', app.get('port'), 'http://localhost:4000/webadmin');
 
 //Configuracion
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser())
+
 
 // Routes
 // app.get("/",authorization.soloPublico, (req,res)=> res.sendFile(__dirname + "/pages/login.html"));
@@ -83,12 +85,15 @@ app.use(cookieParser())
 // app.post("/api/login",authentication.login);
 // app.post("/api/register",authentication.register);
 
-app.get("/", authorization.soloPublico, (req, res) => res.render('login'));
-app.get("/register", authorization.soloPublico, (req, res) => res.render('register'));
-app.post("/api/login", authentication.login);
-app.post("/api/register", authentication.register);
-app.post("/api/aprobated", authentication.aprobated);
-app.get("/admin/feudaldonate", authorization.soloGhost, (req, res) => {
+
+app.get("/", (req, res) => { res.redirect("/webadmin/login");});
+app.get("/webadmin", (req, res) => { res.redirect("/webadmin/login");});
+app.get("/webadmin/login", authorization.soloPublico, (req, res) => res.render('login'));
+app.get("/webadmin/register", authorization.soloPublico, (req, res) => res.render('register'));
+app.post("/webadmin/api/login", authentication.login);
+app.post("/webadmin/api/register", authentication.register);
+app.post("/webadmin/api/aprobated", authentication.aprobated);
+app.get("/webadmin/admin/feudaldonate", authorization.soloGhost, (req, res) => {
     connection.query('SELECT * FROM cms_donate_toll', (error, results) => {
         if (error) {
             console.error('Error al ejecutar la consulta:', error);
@@ -97,14 +102,14 @@ app.get("/admin/feudaldonate", authorization.soloGhost, (req, res) => {
         res.render('feudal-donate', { datos: results });
     });
 });
-app.get("/admin", authorization.soloAdmin, adminHandler);
-app.get("/admin/aion", authorization.soloAdmin, adminAionHandler);
-app.get("/admin/feudal", authorization.soloAdmin, adminFeudalHandler);
-app.get("/admin/feudalconfig", authorization.soloAdmin, adminFeudalConfigHandler);
-app.post("/api/closedProcesoFeudal", authorization.closedGSFeudal);
-app.post("/api/openProcesoFeudal", authorization.openGSFeudal);
-app.post("/api/statusProcesoFeudal", authorization.statusGSFeudal);
-app.post("/api/configFeudalSave", authorization.saveConfigFeudal);
+app.get("/webadmin/admin", authorization.soloAdmin, adminHandler);
+app.get("/webadmin/admin/aion", authorization.soloAdmin, adminAionHandler);
+app.get("/webadmin/admin/feudal", authorization.soloAdmin, adminFeudalHandler);
+app.get("/webadmin/admin/feudalconfig", authorization.soloAdmin, adminFeudalConfigHandler);
+app.post("/webadmin/api/closedProcesoFeudal", authorization.closedGSFeudal);
+app.post("/webadmin/api/openProcesoFeudal", authorization.openGSFeudal);
+app.post("/webadmin/api/statusProcesoFeudal", authorization.statusGSFeudal);
+app.post("/webadmin/api/configFeudalSave", authorization.saveConfigFeudal);
 
 
 

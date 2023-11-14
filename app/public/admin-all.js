@@ -51,7 +51,6 @@ function connectToGame(server, portgame, timeout) {
 }
 
 export function adminHandler(req, res) {
-  //console.log("Código ejecutado en la ruta /admin");
   // Configuración de DATABASE FEUDAL
   const ConnectFeudal = mysql.createConnection({
     host: DBHOSTF,

@@ -24,7 +24,7 @@ export const usuarios = [
 
 
 async function login(req, res) {
-  //console.log(req.body);
+  console.log(req.body);
   const user = req.body.user;
   const password = req.body.password;
   if (!user || !password) {
@@ -34,12 +34,12 @@ async function login(req, res) {
   const usuarioAResvisar = usuarios.find(usuario => usuario.user === user);
   if (!usuarioAResvisar) {
     console.log("Error durante login");
-    return res.status(400).send({ status: "Error", message: "Error durante login" })
+    return res.status(400).send({ status: "Error", message: "Error durante login1" })
   }
   const loginCorrecto = await bcryptjs.compare(password, usuarioAResvisar.password);
   if (!loginCorrecto) {
     console.log("Error durante login 2");
-    return res.status(400).send({ status: "Error", message: "Error durante login" })
+    return res.status(400).send({ status: "Error", message: "Error durante login2" })
   }
   const token = jsonwebtoken.sign(
     { user: usuarioAResvisar.user },
@@ -48,13 +48,13 @@ async function login(req, res) {
 
   const cookieOption = {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-    path: "/",
+    path: "/webadmin",
     SameSite: "None",
     secure: true
   }
 
   res.cookie("jwt", token, cookieOption);
-  res.send({ status: "ok", message: "Usuario loggeado", redirect: "/admin" });
+  res.send({ status: "ok", message: "Usuario loggeado", redirect: "/webadmin/admin" });
   console.log('Login User:', user);
 }
 

@@ -12,6 +12,9 @@ const DBUSERF = process.env.DB_USERF
 const DBPORTF = process.env.DB_PORTF
 const DBPASSF = process.env.DB_PASSF
 const DBNAMEF = process.env.DB_NAMEF
+//PORT GAME FEUDAL
+const PORT28000F = process.env.PORT_28000F
+const PORT_12000F = process.env.PORT_12000F
 
 //FUNCION PARA CONECTAR AL SOCKET
 function connectToGame(server, portgame, timeout) {
@@ -66,9 +69,9 @@ export function adminFeudalHandler(req, res) {
 
 
             const connections = [
-                { server: 'localhost', port: 3306, timeout: 5000 },
-                { server: 'localhost', port: 28000, timeout: 5000 },
-                { server: 'localhost', port: 12000, timeout: 5000 },
+                { server: 'localhost', port: DBPORTF, timeout: 5000 },
+                { server: 'localhost', port: PORT28000F, timeout: 5000 },
+                { server: 'localhost', port: PORT_12000F, timeout: 5000 },
                 // Agrega más conexiones aquí si es necesario
             ];
 
@@ -86,17 +89,17 @@ export function adminFeudalHandler(req, res) {
 
             Promise.all(connectionPromises)
                 .then((results) => {
-                    const puerto3306 = results.find((result) => result.port === 3306 && result.success)
-                        ? '3306'
-                        : 'error 3306';
+                    const puerto3306 = results.find((result) => result.port === DBPORTF && result.success)
+                        ? DBPORTF
+                        : `error ${DBPORTF}`;
 
-                    const puerto28000 = results.find((result) => result.port === 28000 && result.success)
-                        ? '28000'
-                        : 'error 28000';
+                    const puerto28000 = results.find((result) => result.port === PORT28000F && result.success)
+                        ? PORT28000F
+                        : `error ${PORT28000F}`;
 
-                    const puerto12000 = results.find((result) => result.port === 12000 && result.success)
-                        ? '12000'
-                        : 'error 12000';
+                    const puerto12000 = results.find((result) => result.port === PORT_12000F && result.success)
+                        ? PORT_12000F
+                        : `error ${PORT_12000F}`;
 
                     res.render('admin-feudal', {
                         feudalinfo: feudalAccountCount,
